@@ -6,7 +6,9 @@ import urllib.parse
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.ext.automap import automap_base
 from animal import Animal
+from avaliacao import Avaliacao
 from sqlalchemy.orm import sessionmaker
+from textblob import TextBlob
 # definindo objeto flask
 app = Flask(__name__)
 
@@ -18,9 +20,9 @@ app.secret_key = "df6e83eb7983f75b2561c875cbebc40ab9900624b22c6040f5831ecd6faaea
 # =========================================
 #              info do bd
 user = 'root'
-password = urllib.parse.quote_plus('senac')
+password = urllib.parse.quote_plus('senai@123')
 host = 'localhost'
-database = 'zooflask'
+database = 'zooflasktarde'
 # ==========================================
 #           connection string
 connection_string = f'mysql+pymysql://{user}:{password}@{host}/{database}'
@@ -59,7 +61,7 @@ Base.prepare() # mapeando
 
 # Ligando com a classe
 Animal =  Base.classes.animal
-
+Avaliacao = Base.classes.avaliacao
 # Criar a sessão do SQLAlchemy
 Session = sessionmaker(bind=engine)
 
@@ -86,6 +88,25 @@ def inserir_animal():
         session_db.close()
 
     return redirect(url_for('pagina_inicial'))
+
+@app.route('/avaliacao')
+def mostrar_avaliacao():
+    return render_template('avaliacao.html')
+
+@app.route('/addavalia',methods=['POST','GET'])
+def adicionar_avaliacao():
+    sessao_t = Session()
+    texto = request.form['texto']
+    blob = TextBlob(texto)
+    polaridade = blob.sentiment.polarity
+    avaliacao = Avaliacao(texto=texto,polaridade=polaridade)
+    try:
+        sessao_t.add(avaliacao)
+    except:
+        sessao_t.rollback()
+    finally:
+        sessao_t.close()
+    return redirect(url_for('mostrar_avaliacao'))
 
 # definindo com o programa principal 
 if __name__ == "__main__":

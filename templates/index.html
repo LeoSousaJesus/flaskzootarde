@@ -5,17 +5,76 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zoo Flask</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        form {
+            max-width: 600px;
+            width: 100%;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #2a2a2a;
+            transition: background-color 0.3s;
+        }
+        form:hover {
+            background-color: #3a3a3a;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #444;
+            color: #f0f0f0;
+            transition: all 0.3s;
+        }
+        input[type="text"]:hover, textarea:hover {
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            transform: scale(1.02);
+        }
+        textarea {
+            resize: none;
+        }
+        input[type="submit"] {
+            background-color: #00e676;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+        }
+        input[type="submit"]:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 1);
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+    </style>
 </head>
 <body>
-     <form action="/novoanimal" method="POST">
-        <input type="text" name="nome_popular" placeholder="informe o nome popular">
-        <input type="text" name="nome_cientifico" placeholder="informe nome ciêntifico">
-        <label for="hn">hábitos noturnos</label>
-        <textarea id="hn" name="habitos_noturnos" rows="5" col="33">
-         
-        </textarea>
-        <input type="submit" value="enviar">
-    
-     </form>    
+    <form action="/novoanimal" method="POST">
+        <input type="text" name="nome_popular" placeholder="Informe o nome popular">
+        <input type="text" name="nome_cientifico" placeholder="Informe o nome científico">
+        <label for="hn">Hábitos noturnos</label>
+        <textarea id="hn" name="habitos_noturnos" rows="5" placeholder="Descreva os hábitos noturnos aqui..."></textarea>
+        <input type="submit" value="Enviar">
+    </form>
 </body>
 </html>

@@ -97,11 +97,14 @@ def mostrar_avaliacao():
 def adicionar_avaliacao():
     sessao_t = Session()
     texto = request.form['texto']
-    blob = TextBlob(texto)
-    polaridade = blob.sentiment.polarity
-    avaliacao = Avaliacao(texto=texto,polaridade=polaridade)
+    blob_pt = TextBlob(texto)
+    polaridade = blob_pt.sentiment.polarity
+    texto_traduzido = blob_pt.translate(from_lang='pt', to='en')
+    blob_en =TextBlob(str(texto_traduzido))
+    avaliacao = Avaliacao(texto=texto_traduzido,polaridade=polaridade)
     try:
         sessao_t.add(avaliacao)
+        sessao_t.commit()
     except:
         sessao_t.rollback()
     finally:
